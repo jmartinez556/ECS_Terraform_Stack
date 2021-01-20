@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "service" {
   container_definitions = <<EOF
 [{
         "name": "${var.container_name}",
-        "image": "054642084504.dkr.ecr.us-east-1.amazonaws.com/monday_before_christmas",
+        "image": "${var.container_image}",
         "memory": 756,
         "essential": true,
         "portMappings": [

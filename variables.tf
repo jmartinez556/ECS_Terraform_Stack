@@ -71,7 +71,9 @@ variable "record_type" {
   type    = string
   default = "A"
 }
-
+variable "container_image" {
+  type = string
+}
 
 
 
