@@ -69,6 +69,10 @@ resource "aws_route_table_association" "rta-public-2" {
   subnet_id      = aws_subnet.public-2.id
   route_table_id = aws_route_table.public-rt.id
 }
+resource "aws_route_table_association" "rta-public-3" {
+  subnet_id      = aws_subnet.public-3.id
+  route_table_id = aws_route_table.public-rt.id
+}
 
 # PRIVATE SUBNETS
 resource "aws_subnet" "private-1" {
@@ -118,10 +122,19 @@ resource "aws_route_table_association" "rta-private-1" {
   subnet_id      = aws_subnet.private-1.id
   route_table_id = aws_route_table.private-rt.id
 }
+resource "aws_route_table_association" "rta-private-2" {
+  subnet_id      = aws_subnet.private-2.id
+  route_table_id = aws_route_table.private-rt.id
+}
+resource "aws_route_table_association" "rta-private-3" {
+  subnet_id      = aws_subnet.private-3.id
+  route_table_id = aws_route_table.private-rt.id
+}
+
+# NAT GATEWAY
 resource "aws_eip" "nat" {
   vpc = true
 }
-
 resource "aws_nat_gateway" "nat-gw" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public-1.id
