@@ -14,3 +14,4 @@ container_port     = 3000
 container_image    = "054642084504.dkr.ecr.us-east-1.amazonaws.com/test:latest"
 hosted_zone_id     = "Z00325031522O9P8IPI0"
 subdomain          = "test2"
+app_name           = "ecs-app"
