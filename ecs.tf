@@ -36,14 +36,14 @@ resource "aws_ecs_capacity_provider" "test" {
     auto_scaling_group_arn = aws_autoscaling_group.bar.arn
 
     managed_scaling {
-      maximum_scaling_step_size = 2
+      maximum_scaling_step_size = 1
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
       target_capacity           = 1
     }
   }
 }
-# ECS tasks definition
+# ECS tasks definition/container definition
 resource "aws_ecs_task_definition" "service" {
   family             = "service"
   task_role_arn      = aws_iam_role.task_role.arn
