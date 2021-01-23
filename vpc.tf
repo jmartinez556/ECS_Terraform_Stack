@@ -1,3 +1,4 @@
+# VPC
 resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr_block
   instance_tenancy = "default"
@@ -6,6 +7,8 @@ resource "aws_vpc" "main" {
     Name = "${var.app_name}-${var.region}-main"
   }
 }
+
+# INTERNET GATEWAY
 resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.main.id
 
@@ -13,6 +16,8 @@ resource "aws_internet_gateway" "ig" {
     Name = "${var.app_name}-${var.region}-ig"
   }
 }
+
+# PUBLIC SUBNETS
 resource "aws_subnet" "public-1" {
   availability_zone = var.availability_zone1
   vpc_id            = aws_vpc.main.id
@@ -31,6 +36,17 @@ resource "aws_subnet" "public-2" {
     Name = "${var.app_name}-${var.region}-public-2"
   }
 }
+resource "aws_subnet" "public-3" {
+  availability_zone = var.availability_zone2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.public_subnet_3_cidr_block
+
+  tags = {
+    Name = "${var.app_name}-${var.region}-public-3"
+  }
+}
+
+# PUBLIC ROUTE TABLE
 resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.main.id
 
@@ -43,6 +59,8 @@ resource "aws_route_table" "public-rt" {
     Name = "${var.app_name}-${var.region}-public-rt"
   }
 }
+
+# PUBLIC ROUTE TABLE ASSOCIATIONS
 resource "aws_route_table_association" "rta-public-1" {
   subnet_id      = aws_subnet.public-1.id
   route_table_id = aws_route_table.public-rt.id
@@ -51,6 +69,8 @@ resource "aws_route_table_association" "rta-public-2" {
   subnet_id      = aws_subnet.public-2.id
   route_table_id = aws_route_table.public-rt.id
 }
+
+# PRIVATE SUBNETS
 resource "aws_subnet" "private-1" {
   availability_zone = var.availability_zone1
   vpc_id            = aws_vpc.main.id
@@ -60,6 +80,26 @@ resource "aws_subnet" "private-1" {
     Name = "${var.app_name}-${var.region}-private-1"
   }
 }
+resource "aws_subnet" "private-2" {
+  availability_zone = var.availability_zone1
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_2_cidr_block
+
+  tags = {
+    Name = "${var.app_name}-${var.region}-private-2"
+  }
+}
+resource "aws_subnet" "private-3" {
+  availability_zone = var.availability_zone1
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_3_cidr_block
+
+  tags = {
+    Name = "${var.app_name}-${var.region}-private-3"
+  }
+}
+
+# PRIVATE ROUTE TABLE
 resource "aws_route_table" "private-rt" {
   vpc_id = aws_vpc.main.id
 
@@ -72,6 +112,8 @@ resource "aws_route_table" "private-rt" {
     Name = "${var.app_name}-${var.region}-private-rt"
   }
 }
+
+# PRIVATE ROUTE TABLE ASSOCIATIONS
 resource "aws_route_table_association" "rta-private-1" {
   subnet_id      = aws_subnet.private-1.id
   route_table_id = aws_route_table.private-rt.id

@@ -1,5 +1,5 @@
-# ECS service
-# This service manages the ECS cluster and tasks
+# ECS SERVICE
+# THIS SERVICE MANAGES THE ECS SERVICE AND TASKS
 resource "aws_ecs_service" "ecs-service" {
   name            = "${var.app_name}-${var.region}-ecs-service"
   cluster         = aws_ecs_cluster.cluster.id
@@ -22,7 +22,7 @@ resource "aws_ecs_service" "ecs-service" {
     name = "${var.app_name}-${var.region}-ecs-service"
   }
 }
-# ECS cluster
+# ECS CLUSTER
 resource "aws_ecs_cluster" "cluster" {
   name               = "${var.app_name}-${var.region}-cluster"
   capacity_providers = [aws_ecs_capacity_provider.capacity-provider.name]

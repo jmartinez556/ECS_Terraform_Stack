@@ -1,3 +1,4 @@
+# ROUTE 53
 resource "aws_route53_record" "record" {
   zone_id = var.hosted_zone_id
   name    = var.subdomain

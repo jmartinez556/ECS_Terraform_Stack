@@ -1,3 +1,4 @@
+# LOAD BALANCER
 resource "aws_lb" "alb" {
   internal           = "false"
   load_balancer_type = "application"
@@ -10,6 +11,7 @@ resource "aws_lb" "alb" {
   }
 }
 
+# LOAD BALANCER LISTENERS
 resource "aws_lb_listener" "port-80-traffic" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 80

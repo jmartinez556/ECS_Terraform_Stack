@@ -1,4 +1,4 @@
-
+# SECURITY GROUP LOAD BALANCER
 resource "aws_security_group" "load_balancer_sg" {
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id
@@ -27,6 +27,8 @@ resource "aws_security_group" "load_balancer_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# EC2 SECURITY GROUP
 resource "aws_security_group" "ec2_security_group" {
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id
@@ -51,6 +53,8 @@ resource "aws_security_group" "ec2_security_group" {
     Name = "${var.app_name}-${var.region}-allow-all-traffic"
   }
 }
+
+# ECS SECURITY GROUP
 resource "aws_security_group" "ECS_security_sg" {
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id

@@ -1,4 +1,4 @@
-
+# TARGET GROUP
 resource "aws_lb_target_group" "target_group" {
   name        = "${var.app_name}-${var.region}-target-group"
   port        = var.container_port

@@ -23,20 +23,31 @@ variable "vpc_cidr_block" {
 variable "availability_zone1" {
   type = string
 }
+# PUBLIC SUBNETS
 variable "public_subnet_1_cidr_block" {
   type    = string
   default = "10.200.3.0/24"
-}
-variable "availability_zone2" {
-  type = string
 }
 variable "public_subnet_2_cidr_block" {
   type    = string
   default = "10.200.1.0/24"
 }
+variable "public_subnet_3_cidr_block" {
+  type    = string
+  default = "10.200.4.0/24"
+}
+# PRIVATE SUBNETS
 variable "private_subnet_1_cidr_block" {
   type    = string
   default = "10.200.2.0/24"
+}
+variable "private_subnet_2_cidr_block" {
+  type    = string
+  default = "10.200.5.0/24"
+}
+variable "private_subnet_3_cidr_block" {
+  type    = string
+  default = "10.200.6.0/24"
 }
 variable "desired_capacity" {
   type = number
@@ -78,7 +89,9 @@ variable "container_image" {
 variable "app_name" {
   type = string
 }
-
+variable "availability_zone2" {
+  type = string
+}
 
 
 
