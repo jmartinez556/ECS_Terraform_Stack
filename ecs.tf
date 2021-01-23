@@ -55,8 +55,8 @@ resource "aws_ecs_capacity_provider" "capacity-provider" {
 # ECS tasks definition/container definition
 resource "aws_ecs_task_definition" "service" {
   family             = "service"
-  task_role_arn      = aws_iam_role.task_role.arn
-  execution_role_arn = aws_iam_role.task_execution_role.arn
+  task_role_arn      = aws_iam_role.task-role.arn
+  execution_role_arn = aws_iam_role.task-execution-role.arn
   network_mode       = "awsvpc"
 
   container_definitions = <<EOF
@@ -85,7 +85,7 @@ resource "aws_launch_configuration" "as_conf" {
   name                        = "${var.app_name}-${var.region}-as_conf"
   image_id                    = var.ami
   instance_type               = var.instance_type
-  iam_instance_profile        = aws_iam_instance_profile.test_profile.arn
+  iam_instance_profile        = aws_iam_instance_profile.test-profile.arn
   security_groups             = [aws_security_group.ec2_security_group.id]
   associate_public_ip_address = true
   user_data                   = base64encode(local.user_data)
