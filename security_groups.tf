@@ -48,7 +48,7 @@ resource "aws_security_group" "ec2_security_group" {
   }
 
   tags = {
-    Name = "allow_all_traffic"
+    Name = "${var.app_name}-${var.region}-allow-all-traffic"
   }
 }
 resource "aws_security_group" "ECS_security_sg" {
@@ -72,7 +72,7 @@ resource "aws_security_group" "ECS_security_sg" {
   }
 
   tags = {
-    Name = "allow_all_traffic"
+    Name = "${var.app_name}-${var.region}-allow-all-traffic"
   }
 }
 

@@ -1,6 +1,6 @@
 # Allows our tasks to assume a role
-resource "aws_iam_role" "task_role" {
-  name = "task_role"
+resource "aws_iam_role" "task-role" {
+  name = "${var.app_name}-${var.region}-task-role"
 
   assume_role_policy = <<EOF
 {
@@ -19,8 +19,8 @@ resource "aws_iam_role" "task_role" {
 EOF
 }
 # What the task is allowed to : create logs
-resource "aws_iam_policy" "task_policy" {
-  name        = "test_policy"
+resource "aws_iam_policy" "task-policy" {
+  name        = "${var.app_name}-${var.region}-task-policy"
   path        = "/"
   description = "My test policy"
 
@@ -40,14 +40,15 @@ resource "aws_iam_policy" "task_policy" {
 EOF
 }
 # Allowing access to the ecs logs
-resource "aws_iam_policy_attachment" "test-attach" {
-  name       = "task-attachment"
-  roles      = [aws_iam_role.task_role.name]
-  policy_arn = aws_iam_policy.task_policy.arn
+resource "aws_iam_policy_attachment" "ecs-logs" {
+  name       = "${var.app_name}-${var.region}-ecs-logs"
+  roles      = [aws_iam_role.task-role.name]
+  policy_arn = aws_iam_policy.task-policy.arn
 }
 # Allowing aws to launch tasks
-resource "aws_iam_role" "task_execution_role" {
-  name = "task_execution_role"
+resource "aws_iam_role" "task-execution-role" {
+  name = "${var.app_name}-${var.region}-task-execution-role"
+
 
   assume_role_policy = <<EOF
 {
@@ -66,13 +67,13 @@ resource "aws_iam_role" "task_execution_role" {
 EOF
 }
 # Allowing the ec2 to interact with ECS
-resource "aws_iam_instance_profile" "test_profile" {
-  name = "test_profile"
+resource "aws_iam_instance_profile" "test-profile" {
+  name = "${var.app_name}-${var.region}-test-profile"
   role = aws_iam_role.ec2-role.name
 }
 # Giving the ec2 a role
 resource "aws_iam_role" "ec2-role" {
-  name = "ec2-role"
+  name = "${var.app_name}-${var.region}-ec2-role"
   path = "/"
 
   assume_role_policy = <<EOF
@@ -92,8 +93,8 @@ resource "aws_iam_role" "ec2-role" {
 EOF
 }
 
-resource "aws_iam_policy" "ec2_policy" {
-  name        = "ec2_policy"
+resource "aws_iam_policy" "ec2-policy" {
+  name        = "${var.app_name}-${var.region}-ec2-policy"
   path        = "/"
   description = "My test policy"
 
@@ -137,11 +138,11 @@ resource "aws_iam_policy" "ec2_policy" {
 }
 resource "aws_iam_role_policy_attachment" "test-attach" {
   role       = aws_iam_role.ec2-role.name
-  policy_arn = aws_iam_policy.ec2_policy.arn
+  policy_arn = aws_iam_policy.ec2-policy.arn
 }
 
-resource "aws_iam_policy" "task_execution_policy" {
-  name        = "task_execution_policy"
+resource "aws_iam_policy" "task-execution-policy" {
+  name        = "${var.app_name}-${var.region}-task-execution-policy"
   path        = "/"
   description = "My test policy"
 
@@ -176,8 +177,8 @@ resource "aws_iam_policy" "task_execution_policy" {
   EOF
 }
 resource "aws_iam_role_policy_attachment" "test-attach2" {
-  role       = aws_iam_role.task_execution_role.name
-  policy_arn = aws_iam_policy.task_execution_policy.arn
+  role       = aws_iam_role.task-execution-role.name
+  policy_arn = aws_iam_policy.task-execution-policy.arn
 }
 
 

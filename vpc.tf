@@ -3,14 +3,14 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "Justins-vpc"
+    Name = "${var.app_name}-${var.region}-main"
   }
 }
 resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "Justins-ig"
+    Name = "${var.app_name}-${var.region}-ig"
   }
 }
 resource "aws_subnet" "public-1" {
@@ -19,7 +19,7 @@ resource "aws_subnet" "public-1" {
   cidr_block        = var.public_subnet_1_cidr_block
 
   tags = {
-    Name = "Justins-public_subnet-1"
+    Name = "${var.app_name}-${var.region}-public-1"
   }
 }
 resource "aws_subnet" "public-2" {
@@ -28,7 +28,7 @@ resource "aws_subnet" "public-2" {
   cidr_block        = var.public_subnet_2_cidr_block
 
   tags = {
-    Name = "Justins-public_subnet-2"
+    Name = "${var.app_name}-${var.region}-public-2"
   }
 }
 resource "aws_route_table" "public-rt" {
@@ -40,7 +40,7 @@ resource "aws_route_table" "public-rt" {
   }
 
   tags = {
-    Name = "Justins-public-rt"
+    Name = "${var.app_name}-${var.region}-public-rt"
   }
 }
 resource "aws_route_table_association" "rta-public-1" {
@@ -57,7 +57,7 @@ resource "aws_subnet" "private-1" {
   cidr_block        = var.private_subnet_1_cidr_block
 
   tags = {
-    Name = "Justins-private_subnet-1"
+    Name = "${var.app_name}-${var.region}-private-1"
   }
 }
 resource "aws_route_table" "private-rt" {
@@ -69,7 +69,7 @@ resource "aws_route_table" "private-rt" {
   }
 
   tags = {
-    Name = "Justins-private-rt"
+    Name = "${var.app_name}-${var.region}-private-rt"
   }
 }
 resource "aws_route_table_association" "rta-private-1" {
@@ -84,6 +84,6 @@ resource "aws_nat_gateway" "nat-gw" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public-1.id
   tags = {
-    Name = "Justins-nat-gateway"
+    Name = "${var.app_name}-${var.region}-nst-gw"
   }
 }

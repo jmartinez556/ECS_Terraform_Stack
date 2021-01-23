@@ -1,5 +1,6 @@
 variable "region" {
-  type = string
+  type    = string
+  default = "us-east-1"
 }
 variable "ami" {
   type = string
@@ -74,7 +75,9 @@ variable "record_type" {
 variable "container_image" {
   type = string
 }
-
+variable "app_name" {
+  type = string
+}
 
 
 

@@ -1,12 +1,12 @@
 # ECS service
 # This service manages the ECS cluster and tasks
-resource "aws_ecs_service" "mango" {
-  name            = "mangodb"
-  cluster         = aws_ecs_cluster.cake.id
+resource "aws_ecs_service" "ecs-service" {
+  name            = "${var.app_name}-${var.region}-ecs-service"
+  cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.service.arn
   desired_count   = 3
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.test.id
+    capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
     weight            = 1
   }
   network_configuration {
@@ -18,19 +18,25 @@ resource "aws_ecs_service" "mango" {
     container_name   = var.container_name
     container_port   = var.container_port
   }
+  tags = {
+    name = "${var.app_name}-${var.region}-ecs-service"
+  }
 }
 # ECS cluster
-resource "aws_ecs_cluster" "cake" {
-  name               = "white-hart"
-  capacity_providers = [aws_ecs_capacity_provider.test.name]
+resource "aws_ecs_cluster" "cluster" {
+  name               = "${var.app_name}-${var.region}-cluster"
+  capacity_providers = [aws_ecs_capacity_provider.capacity-provider.name]
   default_capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.test.name
+    capacity_provider = aws_ecs_capacity_provider.capacity-provider.name
     weight            = 1
+  }
+  tags = {
+    name = "${var.app_name}-${var.region}-cluster"
   }
 }
 # Capacity provider
-resource "aws_ecs_capacity_provider" "test" {
-  name = "test"
+resource "aws_ecs_capacity_provider" "capacity-provider" {
+  name = "${var.app_name}-${var.region}-capacity-provider"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn = aws_autoscaling_group.bar.arn
@@ -41,6 +47,9 @@ resource "aws_ecs_capacity_provider" "test" {
       status                    = "ENABLED"
       target_capacity           = 1
     }
+  }
+  tags = {
+    name = "${var.app_name}-${var.region}-capacity-provider"
   }
 }
 # ECS tasks definition/container definition
@@ -73,7 +82,7 @@ EOF
 }
 # Launch Configuration
 resource "aws_launch_configuration" "as_conf" {
-  name_prefix                 = "terraform-lc-example-"
+  name                        = "${var.app_name}-${var.region}-as_conf"
   image_id                    = var.ami
   instance_type               = var.instance_type
   iam_instance_profile        = aws_iam_instance_profile.test_profile.arn

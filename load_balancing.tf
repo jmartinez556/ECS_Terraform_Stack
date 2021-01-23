@@ -6,7 +6,7 @@ resource "aws_lb" "alb" {
 
 
   tags = {
-    Deployment_Method = "Terraform"
+    name = "${var.app_name}-${var.region}-alb"
   }
 }
 
