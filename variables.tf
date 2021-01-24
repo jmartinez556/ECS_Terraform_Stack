@@ -50,13 +50,16 @@ variable "private_subnet_3_cidr_block" {
   default = "10.200.6.0/24"
 }
 variable "desired_capacity" {
-  type = number
+  type    = number
+  default = 1
 }
 variable "max_size" {
-  type = number
+  type    = number
+  default = 1
 }
 variable "min_size" {
-  type = number
+  type    = number
+  default = 1
 }
 variable "load_balancer_name" {
   type = string
