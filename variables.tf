@@ -9,9 +9,6 @@ variable "instance_type" {
   type    = string
   default = "t2.micro"
 }
-variable "key_name" {
-  type = string
-}
 variable "associate_public_ip_address" {
   type    = string
   default = "true"
@@ -19,9 +16,6 @@ variable "associate_public_ip_address" {
 variable "vpc_cidr_block" {
   type    = string
   default = "10.200.0.0/16"
-}
-variable "availability_zone1" {
-  type = string
 }
 # PUBLIC SUBNETS
 variable "public_subnet_1_cidr_block" {
@@ -61,9 +55,7 @@ variable "min_size" {
   type    = number
   default = 1
 }
-variable "load_balancer_name" {
-  type = string
-}
+
 variable "domain" {
   type = string
 }
@@ -90,9 +82,6 @@ variable "container_image" {
   type = string
 }
 variable "app_name" {
-  type = string
-}
-variable "availability_zone2" {
   type = string
 }
 
