@@ -84,8 +84,18 @@ variable "container_image" {
 variable "app_name" {
   type = string
 }
-
-
+variable "container_name2" {
+  type = string
+}
+variable "subdomain2" {
+  type = string
+}
+variable "app_name2" {
+  type = string
+}
+variable "container_image2" {
+  type = string
+}
 
 
 
