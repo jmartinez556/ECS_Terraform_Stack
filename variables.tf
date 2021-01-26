@@ -96,7 +96,11 @@ variable "app_name2" {
 variable "container_image2" {
   type = string
 }
-
-
+variable "container_port2" {
+  type = number
+}
+variable "domain2" {
+  type = string
+}
 
 

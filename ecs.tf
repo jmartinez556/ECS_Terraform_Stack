@@ -3,7 +3,7 @@
 resource "aws_ecs_service" "ecs-service" {
   name            = "${var.app_name}-${var.region}-ecs-service"
   cluster         = aws_ecs_cluster.cluster.id
-  task_definition = aws_ecs_task_definition.service.arn
+  task_definition = aws_ecs_task_definition.task-definition.arn
   desired_count   = 3
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
@@ -26,7 +26,7 @@ resource "aws_ecs_service" "ecs-service" {
 resource "aws_ecs_service" "ecs-service2" {
   name            = "${var.app_name2}-${var.region}-ecs-service"
   cluster         = aws_ecs_cluster.cluster.id
-  task_definition = aws_ecs_task_definition.service.arn
+  task_definition = aws_ecs_task_definition.task-definition2.arn
   desired_count   = 3
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
@@ -37,9 +37,9 @@ resource "aws_ecs_service" "ecs-service2" {
     security_groups = [aws_security_group.ECS_security_sg.id]
   }
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group2.arn
     container_name   = var.container_name2
-    container_port   = var.container_port
+    container_port   = var.container_port2
   }
   tags = {
     name = "${var.app_name2}-${var.region}-ecs-service"
@@ -104,7 +104,7 @@ resource "aws_ecs_task_definition" "task-definition" {
 EOF
 }
 # ECS tasks definition/container definition (MIDNIGHT)
-resource "aws_ecs_task_definition" "service" {
+resource "aws_ecs_task_definition" "task-definition2" {
   family             = "${var.app_name2}-${var.region}-task-definition2"
   task_role_arn      = aws_iam_role.task-role.arn
   execution_role_arn = aws_iam_role.task-execution-role.arn
@@ -113,12 +113,12 @@ resource "aws_ecs_task_definition" "service" {
   container_definitions = <<EOF
 [{
         "name": "${var.container_name2}",
-        "image": "${var.container_image}",
+        "image": "${var.container_image2}",
         "memory": 756,
         "essential": true,
         "portMappings": [
           {
-            "containerPort": ${var.container_port}
+            "containerPort": ${var.container_port2}
          }
        ],
         "logConfiguration": {

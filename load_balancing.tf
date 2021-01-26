@@ -18,12 +18,15 @@ resource "aws_lb_listener" "port-80-traffic" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    type = "forward"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "anything"
+    }
   }
 }
 
-resource "aws_lb_listener_rule" "port-80-rule" {
+resource "aws_lb_listener_rule" "sunrise-rule" {
   listener_arn = aws_lb_listener.port-80-traffic.arn
   priority     = 99
 
@@ -35,6 +38,22 @@ resource "aws_lb_listener_rule" "port-80-rule" {
   condition {
     host_header {
       values = [var.domain]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "midnight-rule" {
+  listener_arn = aws_lb_listener.port-80-traffic.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group2.arn
+  }
+
+  condition {
+    host_header {
+      values = [var.domain2]
     }
   }
 }
