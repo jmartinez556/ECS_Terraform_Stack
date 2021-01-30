@@ -18,10 +18,11 @@ resource "aws_lb_listener" "port-80-traffic" {
   protocol          = "HTTP"
 
   default_action {
-    type = "forward"
+    type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
       message_body = "anything"
+      status_code  = "200"
     }
   }
 }

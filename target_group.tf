@@ -29,7 +29,7 @@ resource "aws_lb_target_group" "target_group2" {
   target_type = "ip"
   depends_on  = [aws_lb.alb]
   tags = {
-    name = "${var.app_name2}-${var.region}-target-group"
+    name = "${var.app_name2}-${var.region}-target-group2"
   }
 
   health_check {

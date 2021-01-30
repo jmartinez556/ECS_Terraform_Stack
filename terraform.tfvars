@@ -15,5 +15,6 @@ app_name         = "light"
 subdomain2       = "dusk"
 app_name2        = "dark"
 container_image2 = "054642084504.dkr.ecr.us-east-1.amazonaws.com/midnight:latest"
-container_port2  = 3000
+container_port2  = 9000
 domain2          = "dusk.justin.kiastests.com"
+key_pair         = "Justin-us-east-1"

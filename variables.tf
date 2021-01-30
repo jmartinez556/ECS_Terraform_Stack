@@ -90,9 +90,6 @@ variable "container_name2" {
 variable "subdomain2" {
   type = string
 }
-variable "app_name2" {
-  type = string
-}
 variable "container_image2" {
   type = string
 }
@@ -102,5 +99,10 @@ variable "container_port2" {
 variable "domain2" {
   type = string
 }
-
+variable "app_name2" {
+  type = string
+}
+variable "key_pair" {
+  type = string
+}
 

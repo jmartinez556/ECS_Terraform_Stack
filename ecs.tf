@@ -5,16 +5,19 @@ resource "aws_ecs_service" "ecs-service" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task-definition.arn
   desired_count   = 3
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
     weight            = 1
   }
   network_configuration {
-    subnets         = [aws_subnet.private-1.id, aws_subnet.private-2.id, aws_subnet.private-3.id]
+    subnets         = [aws_subnet.public-1.id, aws_subnet.public-2.id, aws_subnet.public-3.id]
     security_groups = [aws_security_group.ECS_security_sg.id]
   }
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group.id
     container_name   = var.container_name
     container_port   = var.container_port
   }
@@ -28,16 +31,20 @@ resource "aws_ecs_service" "ecs-service2" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task-definition2.arn
   desired_count   = 3
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
     weight            = 1
   }
   network_configuration {
-    subnets         = [aws_subnet.private-1.id, aws_subnet.private-2.id, aws_subnet.private-3.id]
+    subnets         = [aws_subnet.public-1.id, aws_subnet.public-2.id, aws_subnet.public-3.id]
     security_groups = [aws_security_group.ECS_security_sg.id]
   }
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group2.arn
+    target_group_arn = aws_lb_target_group.target_group2.id
     container_name   = var.container_name2
     container_port   = var.container_port2
   }
@@ -47,15 +54,13 @@ resource "aws_ecs_service" "ecs-service2" {
 }
 # ECS CLUSTER
 resource "aws_ecs_cluster" "cluster" {
-  name               = "${var.app_name}-${var.region}-cluster"
+  name               = "${var.region}-cluster"
   capacity_providers = [aws_ecs_capacity_provider.capacity-provider.name]
   default_capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.capacity-provider.name
     weight            = 1
   }
-  tags = {
-    name = "${var.app_name}-${var.region}-cluster"
-  }
+
 }
 # Capacity provider
 resource "aws_ecs_capacity_provider" "capacity-provider" {
@@ -122,12 +127,12 @@ resource "aws_ecs_task_definition" "task-definition2" {
          }
        ],
         "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-region": "us-east-1",
-          "awslogs-group": "MYLOGGROUP"
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-region": "us-east-1",
+            "awslogs-group": "MYLOGGROUP2"
+          }
         }
-      }
 }]
 EOF
 }
