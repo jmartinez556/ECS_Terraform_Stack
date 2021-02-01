@@ -4,16 +4,14 @@ resource "aws_ecs_service" "ecs-service" {
   name            = "${var.app_name}-${var.region}-ecs-service"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task-definition.arn
-  desired_count   = 3
-  lifecycle {
-    ignore_changes = [desired_count]
-  }
-  capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
-    weight            = 1
-  }
+  desired_count   = 1
+
+//  capacity_provider_strategy {
+//    capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
+//    weight            = 1
+//  }
   network_configuration {
-    subnets         = [aws_subnet.public-1.id, aws_subnet.public-2.id, aws_subnet.public-3.id]
+    subnets         = [aws_subnet.private-1.id, aws_subnet.private-2.id, aws_subnet.private-3.id]
     security_groups = [aws_security_group.ECS_security_sg.id]
   }
   load_balancer {
@@ -30,17 +28,17 @@ resource "aws_ecs_service" "ecs-service2" {
   name            = "${var.app_name2}-${var.region}-ecs-service"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task-definition2.arn
-  desired_count   = 3
+  desired_count   = 1
   lifecycle {
     ignore_changes = [desired_count]
   }
 
-  capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
-    weight            = 1
-  }
+//  capacity_provider_strategy {
+//    capacity_provider = aws_ecs_capacity_provider.capacity-provider.id
+//    weight            = 1
+//  }
   network_configuration {
-    subnets         = [aws_subnet.public-1.id, aws_subnet.public-2.id, aws_subnet.public-3.id]
+    subnets         = [aws_subnet.private-1.id, aws_subnet.private-2.id, aws_subnet.private-3.id]
     security_groups = [aws_security_group.ECS_security_sg.id]
   }
   load_balancer {
@@ -70,7 +68,7 @@ resource "aws_ecs_capacity_provider" "capacity-provider" {
     auto_scaling_group_arn = aws_autoscaling_group.bar.arn
 
     managed_scaling {
-      maximum_scaling_step_size = 1
+      maximum_scaling_step_size = 2
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
       target_capacity           = 1

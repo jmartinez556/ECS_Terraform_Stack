@@ -1,8 +1,8 @@
 region           = "us-east-1"
 ami              = "ami-0f06fc190dd71269e"
 instance_type    = "t2.micro"
-desired_capacity = 2
-max_size         = 4
+desired_capacity = 1
+max_size         = 3
 min_size         = 1
 domain           = "dawn.justin.kiastests.com"
 container_name   = "sunrise"
